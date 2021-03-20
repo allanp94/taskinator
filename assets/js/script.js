@@ -30,6 +30,7 @@ var taskFormHandler = function (event) {
       type: taskTypeInput,
       status: "to do",
     };
+
     createTaskEl(taskDataObj);
   }
 };
@@ -77,7 +78,16 @@ var createTaskEl = function (taskDataObj) {
 
   var taskActionsEl = createTaskActions(taskIdCounter);
   listItemEl.appendChild(taskActionsEl);
-  tasksToDoEl.appendChild(listItemEl);
+
+  var statusChangeEl = document.querySelector(".select-status=[value]");
+
+  if (taskDataObj.status === "to do") {
+    tasksToDoEl.appendChild(listItemEl);
+  } else if (taskDataObj.status === "in progress") {
+    tasksInProgressEl.appendChild(listItemEl);
+  } else if (taskDataObj.status === "completed") {
+    tasksCompletedEl.appendChild(listItemEl);
+  }
 
   taskIdCounter++;
 };
@@ -193,6 +203,21 @@ var saveTasks = function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+var loadTasks = function () {
+  var savedTasks = localStorage.getItem("tasks");
+
+  if (savedTasks === null) {
+    return false;
+  }
+  savedTasks = JSON.parse(savedTasks);
+
+  for (var i = 0; i < savedTasks.length; i++) {
+    console.log(savedTasks[i]);
+    createTaskEl(savedTasks[i]);
+  }
+};
+
 formEl.addEventListener("submit", taskFormHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
+loadTasks();
