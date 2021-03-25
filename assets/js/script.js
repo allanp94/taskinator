@@ -79,8 +79,6 @@ var createTaskEl = function (taskDataObj) {
   var taskActionsEl = createTaskActions(taskIdCounter);
   listItemEl.appendChild(taskActionsEl);
 
-  var statusChangeEl = document.querySelector(".select-status=[value]");
-
   if (taskDataObj.status === "to do") {
     tasksToDoEl.appendChild(listItemEl);
   } else if (taskDataObj.status === "in progress") {
